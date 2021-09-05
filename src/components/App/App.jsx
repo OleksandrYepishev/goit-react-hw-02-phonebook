@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { Form } from './components/ContactForm/ContactForm';
-import { ContactList } from './components/ContactList/ContactList';
-import { Filter } from './components/Filter/Filter';
 
-import Initialcontacts from './contacts.json';
+import Initialcontacts from '../../contacts.json';
+
+import { Form } from '../ContactForm/ContactForm';
+import { ContactList } from '../ContactList/ContactList';
+import { Filter } from '../Filter/Filter';
+import { Container } from '../Container/Container';
+
+import { Title } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -18,7 +22,8 @@ export class App extends Component {
             name,
             number,
         };
-      (this.state.contacts.find(contact => contact.name === name)
+      (this.state.contacts
+          .find(contact => contact.name.toLowerCase() === name.toLowerCase())
           ?
           alert(`${name} is alredy in contacts`)
             :
@@ -50,20 +55,21 @@ export class App extends Component {
         const { filter } = this.state;
         const filteredContacts = this.getFilteredContacts();
         return (
-            <div>
-                <h2>Phonebook
-                    <Form onSubmit={this.addContact}
+            <Container>
+                <Title>Phonebook
+                <Form onSubmit={this.addContact}
                     />
-                </h2>
+            </Title>
+            <Title> Contacts
                 <Filter value={filter} onChange={this.changeFilter} />
-            <h2> Contacts
-                <ContactList
-                        contacts={filteredContacts}
-                        onDeleteContact={this.deleteContact}
+                
+                  <ContactList
+                    contacts={filteredContacts}
+                    onDeleteContact={this.deleteContact}
 
-                />
-            </h2>
-           </div>
+                  />
+            </Title>
+           </Container>
        )
            
 
